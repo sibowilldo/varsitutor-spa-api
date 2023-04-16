@@ -30,6 +30,11 @@ class Vacancy extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Favorite::class);
@@ -40,8 +45,18 @@ class Vacancy extends Model
         return $this->belongsToMany(Requirement::class)->withPivot('rating');
     }
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class);
+    }
+
     public function type(): BelongsTo
     {
         return $this->belongsTo(Type::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

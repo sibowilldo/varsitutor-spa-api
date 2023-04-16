@@ -38,7 +38,7 @@ class VacancyFactory extends Factory
             'title' => $this->faker->realText(25),
             'description' => $this->faker->realText(),
             'location' => $this->faker->randomElement($locations),
-            'expires_at' => $this->faker->dateTimeBetween(startDate: 7),
+            'expires_at' => $this->faker->dateTimeBetween(startDate: '1 days', endDate: rand(1, 7).' days'),
         ];
     }
 }
