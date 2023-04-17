@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Resources\VacancyCollection;
 use App\Http\Resources\VacancyResource;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +25,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 Route::get('/vacancy', function () {
-    return response()->json(['vacancies' => VacancyResource::collection(\App\Models\Vacancy::all())]);
+    return response()->json(['vacancies' => VacancyResource::collection(Vacancy::all())]);
+});
+
+Route::get('/vacancy/paginated', function () {
+    return new VacancyCollection(Vacancy::paginate(10));
 });
