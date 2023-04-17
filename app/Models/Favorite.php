@@ -10,6 +10,8 @@ class Favorite extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['vacancy_id', 'user_id'];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

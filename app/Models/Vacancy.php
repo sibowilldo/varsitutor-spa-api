@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusModelTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,28 @@ class Vacancy extends Model
     protected $casts = [
         'expires_at' => 'date',
     ];
+
+    public function approve()
+    {
+        $status = Status::where([
+            'name' => 'approved',
+            'model_type' => StatusModelTypeEnum::VACANCIES])
+            ->firstOrFail();
+
+        $this->status_id = $status->id;
+        $this->save();
+    }
+
+    public function reject()
+    {
+        $status = Status::where([
+            'name' => 'rejected',
+            'model_type' => StatusModelTypeEnum::VACANCIES])
+            ->firstOrFail();
+
+        $this->status_id = $status->id;
+        $this->save();
+    }
 
     public function category(): BelongsTo
     {
