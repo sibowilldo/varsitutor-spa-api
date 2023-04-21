@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RolesEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -17,15 +18,15 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'hod']);
-        Role::create(['name' => 'teacher']);
-        Role::create(['name' => 'applicant']);
+        Role::create(['name' => RolesEnum::ADMIN->value]);
+        Role::create(['name' =>  RolesEnum::HOD->value]);
+        Role::create(['name' =>  RolesEnum::TEACHER->value]);
+        Role::create(['name' =>  RolesEnum::APPLICANT->value]);
 
         $permissionsByRole = [
-            'hod' => ['approve vacancies', 'reject vacancies'],
-            'teacher' => ['edit vacancies', 'delete vacancies', 'publish vacancies', 'unpublish vacancies'],
-            'applicant' => ['edit applications', 'delete applications', 'publish applications', 'withdraw applications'],
+             RolesEnum::HOD->value => ['approve vacancies', 'reject vacancies'],
+             RolesEnum::TEACHER->value => ['edit vacancies', 'delete vacancies', 'publish vacancies', 'unpublish vacancies'],
+             RolesEnum::APPLICANT->value => ['edit applications', 'delete applications', 'publish applications', 'withdraw applications'],
         ];
 
         $insertPermissions = fn ($role) => collect($permissionsByRole[$role])
@@ -33,9 +34,9 @@ class RolesAndPermissionsSeeder extends Seeder
             ->toArray();
 
         $permissionIdsByRole = [
-            'hod' => $insertPermissions('hod'),
-            'teacher' => $insertPermissions('teacher'),
-            'applicant' => $insertPermissions('applicant'),
+             RolesEnum::HOD->value => $insertPermissions( RolesEnum::HOD->value),
+             RolesEnum::TEACHER->value => $insertPermissions( RolesEnum::TEACHER->value),
+             RolesEnum::APPLICANT->value => $insertPermissions( RolesEnum::APPLICANT->value),
         ];
 
         foreach ($permissionIdsByRole as $role => $permissionIds) {
@@ -50,7 +51,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 );
         }
 
-        $admin = Role::whereName('admin')->first();
+        $admin = Role::whereName(RolesEnum::ADMIN->value)->first();
         $admin->givePermissionTo(Permission::all());
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\LocationEnum;
+use App\Enums\RolesEnum;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Status;
@@ -30,7 +31,7 @@ class VacancyFactory extends Factory
         ];
 
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::role(RolesEnum::TEACHER->value)->inRandomOrder()->first()->id,
             'department_id' => Department::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
             'type_id' => Type::inRandomOrder()->first()->id,
