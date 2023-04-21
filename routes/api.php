@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Application\CreateNewApplication;
 use App\Actions\MobileAuth\AuthenticateUser;
 use App\Actions\MobileAuth\RegisterNewUser;
 use App\Actions\Vacancy\ApproveVacancy;
@@ -28,6 +29,10 @@ Route::post('/auth/token', AuthenticateUser::class);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user', fn (Request $request) => $request->user());
+
+    Route::prefix('applications')->group(function (){
+        Route::post('/', CreateNewApplication::class);
+    });
 });
 
 Route::get('/vacancy/paginated', function () {
