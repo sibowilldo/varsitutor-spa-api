@@ -39,7 +39,7 @@ class Application extends Model
         );
     }
 
-    public function attachment(): HasMany
+    public function attachments(): HasMany
     {
         return $this->hasMany(Attachment::class);
     }

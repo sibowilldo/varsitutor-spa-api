@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('job_title')->nullable()->default(null);
             $table->string('duration')->nullable()->default(null);
             $table->string('company_department')->nullable()->default(null);
-            $table->string('motivation')->nullable()->default(null);
+            $table->mediumText('motivation')->nullable()->default(null);
             $table->timestamps();
         });
     }

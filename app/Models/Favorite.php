@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Favorite extends Model
@@ -12,13 +13,13 @@ class Favorite extends Model
 
     protected $fillable = ['vacancy_id', 'user_id'];
 
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function vacancies(): BelongsToMany
+    public function vacancy(): BelongsTo
     {
-        return $this->belongsToMany(Vacancy::class);
+        return $this->belongsTo(Vacancy::class);
     }
 }

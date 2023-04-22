@@ -22,6 +22,7 @@ class ProfileFactory extends Factory
             'family_name' => $this->faker->lastName,
             'name' => $this->faker->name,
             'contact_number' => $this->faker->phoneNumber,
+            'province_city' => 'KZN, '.$this->faker->randomElement(['PMB', 'Durban', 'Westville', 'Hillcrest'])
         ];
     }
 }
