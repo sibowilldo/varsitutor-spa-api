@@ -23,7 +23,7 @@ class VacancyResource extends JsonResource
             'status' => $this->status->name,
             'title' => $this->title,
             'description' => $this->description,
-            'short_description' => str()->limit(25, $this->description),
+            'short_description' => str($this->description)->limit(25),
             'location' => $this->location,
             'expires_at' => DateTimeResource::make($this->expires_at),
             'created_at' => DateTimeResource::make($this->created_at),

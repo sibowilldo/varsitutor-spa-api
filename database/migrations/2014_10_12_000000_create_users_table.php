@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('internal_identification')->unique();
+            $table->string('internal_identification_type');
             $table->string('email')->unique();
             $table->foreignId('status_id')->default(1);
             $table->timestamp('email_verified_at')->nullable();

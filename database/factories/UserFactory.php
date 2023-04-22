@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InternalIdTypeEnum;
 use App\Models\Status;
 use App\Models\Team;
 use App\Models\User;
@@ -25,8 +26,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        list($intIdType, $internalId) = $this->generateUniqueInternalId();
+
+        $email = $internalId.($intIdType->value ===  InternalIdTypeEnum::STAFF->value
+            ? '@dut.ac.za'
+            : '@dut4life.ac.za');
+
         return [
-            'email' => $this->faker->unique()->safeEmail(),
+            'internal_identification' => $internalId,
+            'internal_identification_type' => $intIdType,
+            'email' => $email,
             'email_verified_at' => now(),
             'status_id' => Status::where('model_type', 'users')->inRandomOrder()->first()->id,
             'password' => '$2y$10$t8LKomqa/MbEmvMKW29M/.Sck23nWQtnR3NZKho99pSywHvi9WYE6',
@@ -69,5 +78,21 @@ class UserFactory extends Factory
                 ->when(is_callable($callback), $callback),
             'ownedTeams'
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function generateUniqueInternalId(): array
+    {
+        $year = fake()->dateTimeBetween(startDate: '-10 years')->format('Y');
+        $intIdType = fake()->randomElement([InternalIdTypeEnum::STAFF, InternalIdTypeEnum::STUDENT]);
+        $preStudentNumber = substr($year, 0, 1) . substr($year, 2);
+
+        $internalId = $intIdType->value === InternalIdTypeEnum::STAFF->value
+            ? fake()->unique()->randomNumber(6, true)
+            : $preStudentNumber . fake()->unique()->randomNumber(5, true);
+
+        return [$intIdType, $internalId];
     }
 }
