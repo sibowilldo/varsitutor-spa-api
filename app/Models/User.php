@@ -78,9 +78,9 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\MustVer
         return $this->belongsToMany(User::class);
     }
 
-    public function favorites(): BelongsToMany
+    public function favorites(): HasMany
     {
-        return $this->belongsToMany(Favorite::class);
+        return $this->hasMany(Favorite::class);
     }
 
     public function profile(): HasOne

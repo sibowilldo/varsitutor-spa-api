@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('family_name');
             $table->string('name')->nullable()->default(null);
             $table->string('contact_number');
+            $table->string('province_city')->nullable()->default(null);
             $table->timestamps();
         });
     }

@@ -16,6 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('vacancy_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('status_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('contact_number')->nullable()->default(null);
+            $table->string('email')->nullable()->default(null);
+            $table->string('job_title')->nullable()->default(null);
+            $table->string('duration')->nullable()->default(null);
+            $table->string('company_department')->nullable()->default(null);
+            $table->mediumText('motivation')->nullable()->default(null);
             $table->timestamps();
         });
     }

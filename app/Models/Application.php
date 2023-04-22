@@ -18,7 +18,19 @@ class Application extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id', 'vacancy_id', 'status_id'];
+    protected $fillable = [
+        'user_id',
+        'vacancy_id',
+        'status_id',
+        'contact_number',
+        'email',
+        'job_title',
+        'duration',
+        'company_department',
+        'motivation',];
+
+
+
 
     public function fullname(): Attribute
     {
@@ -27,7 +39,7 @@ class Application extends Model
         );
     }
 
-    public function attachment(): HasMany
+    public function attachments(): HasMany
     {
         return $this->hasMany(Attachment::class);
     }
