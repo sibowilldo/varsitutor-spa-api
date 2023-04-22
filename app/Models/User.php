@@ -34,6 +34,8 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\MustVer
         'email',
         'status_id',
         'password',
+        'internal_identification',
+        'internal_identification_type',
     ];
 
     /**
@@ -94,5 +96,17 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\MustVer
     public function vacancies(): HasMany
     {
         return $this->hasMany(Vacancy::class);
+    }
+
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultProfilePhotoUrl(): string
+    {
+        $styles= ['pixel-art','lorelei','bottts','lorelei-neutral','fun-emoji','big-ears-neutral','big-smile'];
+        return 'https://api.dicebear.com/6.x/'.$styles[rand(0,count($styles)-1)] .'/png?seed='.urlencode($this->profile->given_name);
     }
 }
