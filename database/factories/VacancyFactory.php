@@ -24,10 +24,10 @@ class VacancyFactory extends Factory
     public function definition(): array
     {
         $locations = [
-            LocationEnum::RITSON->name,
-            LocationEnum::ML_SULTAN->name,
-            LocationEnum::STEVE_BIKO->name,
-            LocationEnum::INDUMISO->name,
+            LocationEnum::RITSON->value,
+            LocationEnum::ML_SULTAN->value,
+            LocationEnum::STEVE_BIKO->value,
+            LocationEnum::INDUMISO->value,
         ];
 
         return [
