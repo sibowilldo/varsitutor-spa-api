@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -48,6 +50,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        $users = User::with('profile')->paginate(10);
+        $count = [
+            "users" => User::count(),
+            "applications" => \App\Models\Application::count(),
+            "vacancies" => Vacancy::count(),
+        ];
+        return Inertia::render('Dashboard', ['users' => $users, 'analytics' => $count]);
     })->name('dashboard');
 });

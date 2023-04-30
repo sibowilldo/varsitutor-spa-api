@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -50,6 +51,7 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\MustVer
         'two_factor_secret',
     ];
 
+
     /**
      * The attributes that should be cast.
      *
@@ -65,8 +67,13 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\MustVer
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_url', 'name'
     ];
+
+    public function name(): Attribute
+    {
+        return Attribute::get(fn()=> $this->profile->name);
+    }
 
     public function applications(): HasMany
     {
