@@ -33,7 +33,7 @@ Route::post('/auth/token', AuthenticateUser::class);
 Route::get('/vacancy/paginated', fn()=>response()->json(['vacancies' => VacancyResource::collection(Vacancy::paginate())]));
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/user', fn (Request $request) => new UserResource($request->user()));
+    Route::get('/user', fn (Request $request) =>  response()->json(['user' => new UserResource($request->user())]));
 });
 
 Route::prefix('applications')->group(function (){

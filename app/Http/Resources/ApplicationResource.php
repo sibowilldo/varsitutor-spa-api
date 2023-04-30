@@ -20,12 +20,12 @@ class ApplicationResource extends JsonResource
             'status' => $this->status?->name,
             'contact_number' => $this->contact_number,
             'email' => $this->email,
-                'additional_information' =>[
-                    'job_title' => $this->job_title,
-                    'duration' => sprintf('%s %s',$this->duration,str('month')->plural((int)$this->duration)),
-                    'company_department' => $this->company_department,
-                ],
-            'motivation' => $this->motivation,
+            'additional_information' =>[
+                'job_title' => $this->job_title,
+                'duration' => sprintf('%s %s',$this->duration,str('month')->plural((int)$this->duration)),
+                'company_department' => $this->company_department,
+                'motivation' => $this->motivation,
+            ],
             'attachments' => new AttachmentResourceCollection($this->attachments),
             'created_at' => DateTimeResource::make($this->created_at)
         ];

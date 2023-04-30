@@ -34,18 +34,23 @@ class RegisterNewUser
         ];
     }
 
+    public function asController(ActionRequest $request): User
+    {
+        return $this->handle($request->validated());
+    }
+
     public function handle(array $input): User
     {
         DB::beginTransaction();
-        $isStudent = str($input['internal_identification'])->length() >=8;
+        $isStudent = str($input['internal_identification'])->length() >= 8;
         $user = User::create([
-            'internal_identification' =>  $input['internal_identification'],
+            'internal_identification' => $input['internal_identification'],
             'internal_identification_type' => $isStudent
                 ? InternalIdTypeEnum::STUDENT->value
                 : InternalIdTypeEnum::STAFF->value,
-            'email' => $input['internal_identification'].($isStudent
-                ? '@dut4life.ac.za'
-                : '@dut.ac.za') ,
+            'email' => $input['internal_identification'] . ($isStudent
+                    ? '@dut4life.ac.za'
+                    : '@dut.ac.za'),
             'status_id' => Status::where(['name' => 'inactive', 'model_type' => StatusModelTypeEnum::USERS->value])->first()->id,
             'password' => Hash::make($input['password']),
         ]);
@@ -54,10 +59,7 @@ class RegisterNewUser
             'given_name' => $input['given_name'],
             'family_name' => $input['family_name'],
             'name' => $input['preferred_name']
-                ?? sprintf('%s. %s',
-                    str($input['given_name'])
-                        ->substr(0,1), $input['family_name']
-                ),
+                ?? sprintf('%s. %s', str($input['given_name'])->substr(0, 1), $input['family_name']),
             'contact_number' => $input['contact_number'],
             'province_city' => $input['province_city'],
         ]);
@@ -65,11 +67,6 @@ class RegisterNewUser
 
         UserRegisteredEvent::dispatch($user, $input);
         return $user;
-    }
-
-    public function asController(ActionRequest $request): User
-    {
-        return $this->handle($request->validated());
     }
 
     public function jsonResponse(User $user, ActionRequest $request): JsonResponse
