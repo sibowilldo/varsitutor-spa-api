@@ -15,6 +15,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'internal_id' => $this->internal_identification,
             'name' => $this->profile->name,
             'given_name' => $this->profile->given_name,
@@ -27,7 +28,7 @@ class UserResource extends JsonResource
             'applications_count' => count($this->applications),
             'applications' => new ApplicationResourceCollection($this->applications),
             'joined' => DateTimeResource::make($this->created_at),
-            'is_verified' => $this->email_verified_at == null
+            'verified' => $this->email_verified_at == null
         ];
     }
 }

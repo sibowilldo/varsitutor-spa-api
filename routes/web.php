@@ -50,7 +50,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        $users = User::with('profile')->paginate(10);
+        $users = User::with('profile')->orderByDesc('created_at')->paginate(10);
         $count = [
             "users" => User::count(),
             "applications" => \App\Models\Application::count(),

@@ -8,6 +8,7 @@ use App\Models\Application;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Vacancy;
+use App\Notifications\ApplicationSent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ class CreateNewApplication
             $this->uploadAttachedFile($data['attachment'], $user, $application);
         }
         DB::commit();
+        $user->notify(new ApplicationSent($application));
         return $application->fresh();
     }
 

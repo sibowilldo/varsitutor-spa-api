@@ -5,6 +5,8 @@ use App\Actions\Application\GetAllUserApplications;
 use App\Actions\Application\ViewSingleApplication;
 use App\Actions\MobileAuth\AuthenticateUser;
 use App\Actions\MobileAuth\RegisterNewUser;
+use App\Actions\Notifications\GetSingleUserNotification;
+use App\Actions\Notifications\GetUserAllNotifications;
 use App\Actions\Vacancy\ApproveVacancy;
 use App\Actions\Vacancy\GetUserFavoriteVacancies;
 use App\Actions\Vacancy\RejectVacancy;
@@ -47,6 +49,13 @@ Route::prefix('applications')->group(function (){
 Route::prefix('users')->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{user}/vacancies/favorites', GetUserFavoriteVacancies::class);
+    });
+});
+
+Route::prefix('notifications')->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+        Route::get('/', GetUserAllNotifications::class);
+        Route::get('/{notification}', GetSingleUserNotification::class);
     });
 });
 

@@ -50,7 +50,6 @@ class AuthenticateUser
     {
         return response()->json([
             'user' => new UserResource($user),
-            'verified' => $user->email_verified_at !== null,
             'token' => $user->createToken($request->device_name)->plainTextToken,
         ]);
     }

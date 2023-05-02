@@ -10,6 +10,6 @@ class GetAllApplications
 
     public function handle()
     {
-        // ...
+
     }
 }
