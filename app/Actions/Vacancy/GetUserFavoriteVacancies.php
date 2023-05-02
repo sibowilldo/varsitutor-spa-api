@@ -8,6 +8,7 @@ use App\Models\Favorite;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -15,26 +16,16 @@ class GetUserFavoriteVacancies
 {
     use AsAction;
 
-    public function authorize(): Response
+    public function handle()
     {
-        return auth('sanctum')->id() === (int)request()->user
-            ? Response::allow()
-            : Response::deny('Access not granted!');
+        return auth('sanctum')->user()->favorites;
     }
-
-    public function asController(Request $request)
+    public function asController()
     {
-        $user = User::where('id', request()->user)->first();
-        return $this->handle($user);
+        return $this->handle();
     }
-
-    public function handle(User $user)
+    public function jsonResponse(Collection $favorite): JsonResponse
     {
-        return $user->favorites;
-    }
-
-    public function jsonResponse(Collection $favorite): FavoriteResourceCollection
-    {
-        return new FavoriteResourceCollection($favorite);
+        return response()->json(['favorites' => new FavoriteResourceCollection($favorite)]);
     }
 }

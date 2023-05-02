@@ -12,21 +12,22 @@ class ViewVacancyList
 {
     use AsAction;
 
+    public function jsonResponse()
+    {
+        return response()->json([$this->handle()]);
+    }
+
     public function handle(): AnonymousResourceCollection
     {
-       $statuses = Status::whereIn('name', ['approved'])
-           ->where('model_type', 'vacancies')
-           ->get()
-           ->pluck('id')
-           ->toArray();
+
+        $statuses = Status::whereIn('name', ['approved'])
+            ->where('model_type', 'vacancies')
+            ->get()
+            ->pluck('id')
+            ->toArray();
 
         return VacancyResource::collection(Vacancy::orderByDesc('updated_at')
             ->whereIn('status_id', $statuses)
             ->paginate());
-    }
-
-    public function jsonResponse()
-    {
-        return response()->json([$this->handle()]);
     }
 }

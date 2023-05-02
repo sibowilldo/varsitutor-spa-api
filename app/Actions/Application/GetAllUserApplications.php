@@ -3,9 +3,8 @@
 namespace App\Actions\Application;
 
 use App\Http\Resources\ApplicationResourceCollection;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class GetAllUserApplications
@@ -17,14 +16,13 @@ class GetAllUserApplications
         // ...
     }
 
-    public function asController(User $user): Collection
+    public function asController(): Collection
     {
-        return $user->applications;
+        return auth('sanctum')->user()->applications;
     }
 
-    public function jsonResponse(Collection $applications): ApplicationResourceCollection
+    public function jsonResponse(Collection $applications): JsonResponse
     {
-
-        return new ApplicationResourceCollection($applications);
+        return response()->json(['applications' => new ApplicationResourceCollection($applications)]);
     }
 }

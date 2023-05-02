@@ -42,13 +42,13 @@ Route::prefix('applications')->group(function (){
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/', CreateNewApplication::class);
         Route::get('/{application}', ViewSingleApplication::class);
-        Route::get('/users/{user}', GetAllUserApplications::class);
     });
 });
 
 Route::prefix('users')->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-        Route::get('/{user}/vacancies/favorites', GetUserFavoriteVacancies::class);
+        Route::get('/applications', GetAllUserApplications::class);
+        Route::get('/favorites', GetUserFavoriteVacancies::class);
     });
 });
 
@@ -68,5 +68,4 @@ Route::prefix('vacancies')->group(function () {
         Route::post('/{vacancy}/favorite', ToggleFavoriteVacancy::class);
     });
 });
-
 

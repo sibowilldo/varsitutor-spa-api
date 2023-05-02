@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Vacancy;
 use App\Notifications\ApplicationSent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\ActionRequest;
@@ -68,8 +69,8 @@ class CreateNewApplication
         return $this->handle($user, $vacancy, $request->validated());
     }
 
-    public function jsonResponse(Application $application): ApplicationResource{
-        return new ApplicationResource($application);
+    public function jsonResponse(Application $application): JsonResponse{
+        return response()->json(['message' => "Your application has been sent! Ref. # {$application->id}"]);
     }
 
     /**

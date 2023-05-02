@@ -6,6 +6,7 @@ use App\Http\Resources\MobileAppNotificationResourceCollection;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class GetUserAllNotifications
@@ -23,8 +24,10 @@ class GetUserAllNotifications
         return $user->notifications;
     }
 
-    public function jsonResponse(Collection $notifications): MobileAppNotificationResourceCollection
+    public function jsonResponse(Collection $notifications): JsonResponse
     {
-        return new MobileAppNotificationResourceCollection($notifications);
+        return response()->json([
+            'notifications' => new MobileAppNotificationResourceCollection($notifications)
+        ]);
     }
 }
